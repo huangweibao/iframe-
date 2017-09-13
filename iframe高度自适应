@@ -1,0 +1,42 @@
+页面结构应该：
+<style>
+html,body{
+  overflow: hidden; /*隐藏滚动条*/
+}
+</style>
+<body>
+  <div class="wrap-content-div">
+    //这里是一些html语言
+    <div class="container">
+      <iframe id="main" name="main" frameBorder="0" scrolling="no" src="" width="100%"  style="margin-top: 20px;"></iframe>
+    </div>
+  </div>
+  <script>
+    //通过javascript改变iframe的高度
+     // <!--设置外部容器高度为body高度-->
+     //这里通过获取浏览器窗口的高度和宽度来设置外部容器的高度和宽度从而在视觉效果上面感觉水平滚动条一直在浏览器的底部 就好像是body的滚动条一样
+      var getClientSize = function(){
+        var clientHeight = window.innerHeight||document.body.clientHeight||document.documentElement.clientHeight;
+        var clientWidth = window.innerWidth||document.body.clientWidth||document.documentElement.clientWidth;
+       document.getElementsByClassName('wrap-content-div')[0].style.height = clientHeight + 'px';
+       document.getElementsByClassName('wrap-content-div')[0].style.width = clientWidth + 'px';
+      }
+      window.onload = window.onresize = function(){
+        getClientSize();
+      }
+      //  <!--设置iframe高度 -->
+            var ifm = document.getElementById("main");
+            var setIframeHeight = function() {
+              var iframeHeight = $(ifm).contents().find('body').height();
+              if (iframeHeight < 500) {
+                iframeHeight = 500;
+              }
+              if (ifm != 'undefind') {
+                ifm.style.height = iframeHeight + 'px';
+              }
+              setTimeout(setIframeHeight, 1000);
+            };
+            setIframeHeight();
+    
+  </script>
+</body>
